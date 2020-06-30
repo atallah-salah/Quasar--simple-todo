@@ -21,6 +21,21 @@ const actions = {
         commit('FETCH_TODOS', data)
         return data
       })
+  },
+  postTodo({ dispatch }, title) {
+    fetch(`${api}/todos`, {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ title: title })
+    })
+      .then(response => response.json())
+      .then((data) => {
+        // update data - fetch new data after add new todo
+        dispatch('getTodosData')
+        return data
+      })
   }
 }
 

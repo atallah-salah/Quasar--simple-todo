@@ -13,6 +13,7 @@ export default {
   created () {
     // fetch todos data
     this.getTodosData()
+    this.postTodo('test title')
   },
   computed: {
     // get todos data from todos store
@@ -20,7 +21,8 @@ export default {
   },
   methods: {
     ...mapActions({
-      getTodosData: 'todos/getTodosData'
+      getTodosData: 'todos/getTodosData',
+      postTodo: 'todos/postTodo'
     })
   }
 }
