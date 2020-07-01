@@ -1,7 +1,9 @@
 <template>
   <q-page class="flex flex-center">
     <ul>
-      <li :key="index" v-for="(todo,index) in todos">{{todo.title}}</li>
+      <li>
+        <Todo :key="index" v-for="(todo,index) in todos" :todo="todo">{{todo.title}}</Todo>
+      </li>
     </ul>
   </q-page>
 </template>
@@ -24,6 +26,9 @@ export default {
       getTodosData: 'todos/getTodosData',
       postTodo: 'todos/postTodo'
     })
+  },
+  components: {
+    Todo: require('components/Todo.vue').default
   }
 }
 </script>
