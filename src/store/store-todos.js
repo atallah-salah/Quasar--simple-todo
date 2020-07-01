@@ -18,7 +18,9 @@ const actions = {
     fetch(`${api}/todos`)
       .then(response => response.json())
       .then((data) => {
-        commit('FETCH_TODOS', data)
+        // sort todos data to be non-completed first and completed to the last
+        const sortedData = data.sort((x, y) => (x.completed === y.completed) ? 0 : x.completed ? 1 : -1)
+        commit('FETCH_TODOS', sortedData)
         return data
       })
   },

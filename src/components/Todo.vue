@@ -1,15 +1,21 @@
 <template>
-    <div class="todo-container">
+    <div class="todo-container"  v-bind:style="{ backgroundColor: todo.completed && '#ff820042' }">
       <p>{{todo.title}}</p>
       <div class="todo-controls">
-        add
+              <q-checkbox v-model="checkobx" />
+        <button>
+          <q-icon color='red' name='delete'/>
+        </button>
       </div>
     </div>
 </template>
 
 <script>
 export default {
-  props: ['todo']
+  props: ['todo'],
+  data () {
+    return { checkobx: false }
+  }
 }
 </script>
 <style lang="sass" scoped>
