@@ -18,3 +18,10 @@ export default {
   name: 'MainLayout'
 }
 </script>
+<style lang="sass">
+.q-header
+  background-color: $secondary
+
+.q-page-container
+  background-color: $primary
+</style>
