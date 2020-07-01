@@ -1,10 +1,17 @@
 <template>
   <q-page class="flex flex-center">
-    <ul>
+    <ul v-show="false">
       <li>
-        <Todo :key="index" v-for="(todo,index) in todos" :todo="todo">{{todo.title}}</Todo>
       </li>
     </ul>
+    <div class="container">
+      <div class="container-header">Todos</div>
+      <ul class="todos-list">
+        <li>
+          <Todo :key="index" v-for="(todo,index) in todos" :todo="todo">{{todo.title}}</Todo>
+        </li>
+      </ul>
+    </div>
   </q-page>
 </template>
 
@@ -32,3 +39,28 @@ export default {
   }
 }
 </script>
+
+<style lang="sass">
+.container
+  display: flex
+  flex-direction: column
+  height: 600px
+  width: 90%
+  max-width: 1000px
+  background-color: #e8e8e8
+  border-radius: 18px
+
+  .container-header
+    padding: 20px
+    font-size: 20px
+    border-radius: 18px 18px 0 0
+    background-color: $secondary
+    color: white
+
+  .todos-list
+    height: 86%
+    margin: 4px
+    padding: 0px
+    overflow-y: auto;
+    list-style: none
+</style>
