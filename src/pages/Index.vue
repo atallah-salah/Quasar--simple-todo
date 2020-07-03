@@ -63,7 +63,9 @@ export default {
   methods: {
     addTodo: function () {
       // check if input has errors then stop function
+      this.$refs.titleInput.validate()
       if (this.$refs.titleInput.hasError) return
+
       this.postTodo({ title: this.addToDoTitle, completed: this.completed })
       this.addToDoTitle = ''
       this.completed = false
@@ -71,8 +73,7 @@ export default {
     },
     ...mapActions({
       getTodosData: 'todos/getTodosData',
-      postTodo: 'todos/postTodo',
-      updateTodo: 'todos/postTodo'
+      postTodo: 'todos/postTodo'
     })
   },
   components: {

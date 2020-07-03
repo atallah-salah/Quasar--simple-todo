@@ -24,13 +24,13 @@ const actions = {
         return data
       })
   },
-  postTodo({ dispatch }, title) {
+  postTodo({ dispatch }, data) {
     fetch(`${api}/todos`, {
       method: 'post',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ title })
+      body: JSON.stringify({ ...data })
     })
       .then(response => response.json())
       .then((data) => {
@@ -39,15 +39,13 @@ const actions = {
         return data
       })
   },
-  updateTodo({ dispatch }, id, data) {
-    fetch(`${api}/todos/${id}`, {
+  updateTodoAction({ dispatch }, data) {
+    fetch(`${api}/todos/${data.id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
-        ...data
-      })
+      body: JSON.stringify({ ...data })
     })
       .then(response => response.json())
       .then(data => {
@@ -55,7 +53,7 @@ const actions = {
         return data
       })
   },
-  deleteTodo({ dispatch }, id) {
+  deleteTodoAction({ dispatch }, id) {
     fetch(`${api}/todos/${id}`, {
       method: 'DELETE',
       headers: {
