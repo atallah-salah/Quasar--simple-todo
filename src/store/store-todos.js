@@ -14,7 +14,7 @@ const mutations = {
 }
 
 const actions = {
-  getTodosData({ commit }) {
+  getTodosDataAction({ commit }) {
     fetch(`${api}/todos`)
       .then(response => response.json())
       .then((data) => {
@@ -24,7 +24,7 @@ const actions = {
         return data
       })
   },
-  postTodo({ dispatch }, data) {
+  postTodoAction({ dispatch }, data) {
     fetch(`${api}/todos`, {
       method: 'post',
       headers: {
@@ -35,7 +35,7 @@ const actions = {
       .then(response => response.json())
       .then((data) => {
         // update data - fetch new data after add new todo
-        dispatch('getTodosData')
+        dispatch('getTodosDataAction')
         return data
       })
   },
@@ -49,7 +49,7 @@ const actions = {
     })
       .then(response => response.json())
       .then(data => {
-        dispatch('getTodosData')
+        dispatch('getTodosDataAction')
         return data
       })
   },
@@ -62,7 +62,7 @@ const actions = {
     })
       .then(response => response.json())
       .then(data => {
-        dispatch('getTodosData')
+        dispatch('getTodosDataAction')
         return data
       })
   }

@@ -1,9 +1,11 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import VueContentPlaceholders from 'vue-content-placeholders'
 
 import todos from './store-todos'
 
 Vue.use(Vuex)
+Vue.use(VueContentPlaceholders)
 
 /*
  * If not building with SSR mode, you can

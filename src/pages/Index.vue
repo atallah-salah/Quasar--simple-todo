@@ -1,18 +1,21 @@
 <template>
-  <q-page class="flex flex-center" onbeforeunload="console.log(9999999999999)">
+  <q-page class="flex flex-center">
     <div class="container">
       <div class="container-header">
         <p>Todos</p>
-        <q-btn flat round color="" icon="add_circle" style="font-size: 1.8rem" @click="showAddTodoModal=true" />
+        <q-btn flat round icon="add_circle" style="font-size: 1.8rem" @click="showAddTodoModal=true" />
       </div>
-      <ul id="todosList" ref="todosList" class="todos-list">
-        <li>
-          <Todo :key="index" v-for="(todo,index) in todos" :todo="todo">{{todo.title}}</Todo>
-        </li>
+      <!-- placehoder ( content loader ) -->
+      <ul v-if="todos.length === 0" class="todos-list">
+          <Todo :PlaceHolder="true" :key="-todo" v-for="(todo) in 8" :todo="todo">{{todo.title}}</Todo>
+      </ul>
+      <!-- end placehoder ( content loader ) -->
+      <ul v-else id="todosList" ref="todosList" class="todos-list">
+          <Todo :PlaceHolder="false" :key="index" v-for="(todo,index) in todos" :todo="todo">{{todo.title}}</Todo>
       </ul>
     </div>
 
-    <!-- Add T modal -->
+    <!-- Add Todo modal -->
     <q-dialog v-model="showAddTodoModal" persistent>
       <q-card style="min-width: 350px">
         <q-card-section>
@@ -47,26 +50,27 @@ export default {
       titleInput: null,
       todosList: null,
       addToDoTitle: '',
-      completed: false
+      completed: false,
+      enableScroll: true
     }
-  },
-  created () {
   },
   async mounted () {
     // fetch todos data
-    await this.getTodosData()
+    await this.getTodosDataAction()
   },
   updated () {
     // load last scroll on todo list item
     const todosListScrollTop = localStorage.getItem('recentScroll')
-    if (this.todos.length > 0) {
-      this.$refs.todosList.scroll({ top: todosListScrollTop, behavior: 'smooth' })
+    if (this.enableScroll && todosListScrollTop && this.todos.length > 0) {
+      // prevent list from scrolling each time state updated
+      this.enableScroll = false
+      this.$refs.todosList && this.$refs.todosList.scroll({ top: todosListScrollTop, behavior: 'smooth' })
     }
 
     // save last scroll on todo list item
     window.addEventListener('unload', function (event) {
-      const recentScroll = document.getElementById('todosList').scrollTop
-      localStorage.setItem('recentScroll', recentScroll)
+      const todosList = document.getElementById('todosList')
+      localStorage.setItem('recentScroll', todosList.scrollTop)
     })
   },
   computed: {
@@ -79,14 +83,14 @@ export default {
       this.$refs.titleInput.validate()
       if (this.$refs.titleInput.hasError) return
 
-      this.postTodo({ title: this.addToDoTitle, completed: this.completed })
+      this.postTodoAction({ title: this.addToDoTitle, completed: this.completed })
       this.addToDoTitle = ''
       this.completed = false
       this.showAddTodoModal = false
     },
     ...mapActions({
-      getTodosData: 'todos/getTodosData',
-      postTodo: 'todos/postTodo'
+      getTodosDataAction: 'todos/getTodosDataAction',
+      postTodoAction: 'todos/postTodoAction'
     })
   },
   components: {
