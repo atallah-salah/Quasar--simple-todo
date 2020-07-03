@@ -1,11 +1,9 @@
 <template>
-    <div class="todo-container"  v-bind:style="{ backgroundColor: todo.completed && '#ff820042' }">
+    <div class="todo-container"  v-bind:style="{ backgroundColor: todo.completed && '#ffc80042' }">
       <p>{{todo.title}}</p>
       <div class="todo-controls">
-              <q-checkbox v-model="checkobx" />
-        <button>
-          <q-icon color='red' name='delete'/>
-        </button>
+          <q-checkbox v-model="checkobx" />
+          <q-btn flat round color="red" icon="delete"/>
       </div>
     </div>
 </template>
@@ -14,7 +12,7 @@
 export default {
   props: ['todo'],
   data () {
-    return { checkobx: false }
+    return { checkobx: this.todo.completed }
   }
 }
 </script>
