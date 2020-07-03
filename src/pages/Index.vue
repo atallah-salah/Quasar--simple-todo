@@ -7,7 +7,7 @@
     <div class="container">
       <div class="container-header">
         <p>Todos</p>
-        <q-btn flat round color="" icon="add_circle" style="font-size: 1.8rem" @click="addTodo=true" />
+        <q-btn flat round color="" icon="add_circle" style="font-size: 1.8rem" @click="showAddTodoModal=true" />
       </div>
       <ul class="todos-list">
         <li>
@@ -16,20 +16,24 @@
       </ul>
     </div>
 
-    <!-- Add todo modal -->
-    <q-dialog v-model="addTodo" persistent>
+    <!-- Add T modal -->
+    <q-dialog v-model="showAddTodoModal" persistent>
       <q-card style="min-width: 350px">
         <q-card-section>
-          <div class="text-h6">Your address</div>
+          <div class="text-h6">Todo Title</div>
         </q-card-section>
 
         <q-card-section class="q-pt-none">
-          <q-input dense autofocus @keyup.enter="addTodo=false" />
+          <q-input ref="titleInput" v-model='addToDoTitle' dense autofocus @keyup.enter="addTodo" :rules="[val => !!val || 'Field is required']"/>
+        </q-card-section>
+
+        <q-card-section class="q-pt-none">
+          <q-checkbox v-model="completed" label="Completed" />
         </q-card-section>
 
         <q-card-actions align="right" class="text-primary">
-          <q-btn flat label="Cancel" v-close-popup @click="addTodo=false" />
-          <q-btn flat label="Add address" v-close-popup />
+          <q-btn flat label="Cancel" v-close-popup @click="showAddTodoModal=false" />
+          <q-btn flat label="Add Todo" type="submit" @click="addTodo" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -42,25 +46,33 @@ export default {
   name: 'todos',
   data: function () {
     return {
-      addTodo: false
+      showAddTodoModal: false,
+      titleInput: null,
+      addToDoTitle: '',
+      completed: false
     }
   },
   created () {
     // fetch todos data
     this.getTodosData()
-    this.postTodo('test title')
   },
   computed: {
     // get todos data from todos store
     ...mapGetters('todos', ['todos'])
   },
   methods: {
-    hideModal: () => {
-      this.addTodo = false
+    addTodo: function () {
+      // check if input has errors then stop function
+      if (this.$refs.titleInput.hasError) return
+      this.postTodo({ title: this.addToDoTitle, completed: this.completed })
+      this.addToDoTitle = ''
+      this.completed = false
+      this.showAddTodoModal = false
     },
     ...mapActions({
       getTodosData: 'todos/getTodosData',
-      postTodo: 'todos/postTodo'
+      postTodo: 'todos/postTodo',
+      updateTodo: 'todos/postTodo'
     })
   },
   components: {
