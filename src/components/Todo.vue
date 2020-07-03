@@ -5,11 +5,11 @@
         <content-placeholders-text :style="{flex:1}" :lines="1" />
       </content-placeholders>
       <!-- end placehoder ( content loader ) -->
-      <q-input v-if="!PlaceHolder" class='todo-input' ref="todoInput" v-model="title"  @keyup.enter="saveEdit" :hint="editing ? 'Press enter to save' : ''" :readonly="!editing" dense clearable spellcheck="false"  />
+      <q-input name="todoInput" v-if="!PlaceHolder" class='todo-input' ref="todoInput" v-model="title"  @keyup.enter="saveEdit" :hint="editing ? 'Press enter to save' : ''" :readonly="!editing" dense clearable spellcheck="false" aria-label="todo" />
       <div class="todo-controls">
-          <q-checkbox v-model="checkobx" @input="!PlaceHolder && updateTodoData()"/>
-          <q-btn flat round color="blue" icon="edit" @click="!PlaceHolder && startEditing()"/>
-          <q-btn flat round color="red" icon="delete" @click="!PlaceHolder && deleteTodoAction(todo.id)"/>
+        <q-checkbox v-model="checkobx" @input="!PlaceHolder && updateTodoData()" aria-label="complete the todo" :id="'tab-completed-'+todo.id" tabindex="-1"/>
+        <q-btn flat round :style="{'color': '#0068bb'}" icon="edit" @click="!PlaceHolder && startEditing()" role="button" tabindex="-1" aria-label="Edit" aria-pressed/>
+        <q-btn flat round :style="{'color': '#9e0000'}" icon="delete" @click="!PlaceHolder && deleteTodoAction(todo.id)" aria-label="delete todo" role="button" aria-pressed :id="'tab-delete-'+todo.id" tabindex="-1"/>
       </div>
     </div>
 </template>
@@ -25,6 +25,8 @@ export default {
       editing: false,
       title: this.todo.title
     }
+  },
+  mounted () {
   },
   methods: {
     startEditing: function () {
@@ -60,9 +62,12 @@ export default {
   .todo-input
     flex: 1
 
+  .vue-content-placeholders-text
+    height: 60px
+
   .q-field--readonly .q-field__control:before
     border-bottom-style: none !important
 
-  .vue-content-placeholders-text
-    height: 60px
+  .q-field__marginal
+    color: black
 </style>

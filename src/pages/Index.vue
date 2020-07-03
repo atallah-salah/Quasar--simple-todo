@@ -1,25 +1,29 @@
 <template>
   <q-page class="flex flex-center">
     <div class="container">
-      <div class="container-header">
-        <p>Todos</p>
-        <q-btn flat round icon="add_circle" style="font-size: 1.8rem" @click="showAddTodoModal=true" />
+      <div id="addTodo" role="tablist" class="container-header">
+        <p aria-hidden="true">Todos</p>
+        <q-btn flat round icon="add_circle" style="font-size: 1.8rem" @click="showAddTodoModal=true" aria-label="show add todo modal" role="tab" aria-selected="true" aria-controls="addTodo" id="tab-1"/>
       </div>
       <!-- placehoder ( content loader ) -->
-      <ul v-if="todos.length === 0" class="todos-list">
+      <ul v-if="false" class="todos-list">
+        <li>
           <Todo :PlaceHolder="true" :key="-todo" v-for="(todo) in 8" :todo="todo">{{todo.title}}</Todo>
+        </li>
       </ul>
       <!-- end placehoder ( content loader ) -->
       <ul v-else id="todosList" ref="todosList" class="todos-list">
+        <li>
           <Todo :PlaceHolder="false" :key="index" v-for="(todo,index) in todos" :todo="todo">{{todo.title}}</Todo>
+        </li>
       </ul>
     </div>
-
+<!-- #823f00 -->
     <!-- Add Todo modal -->
     <q-dialog v-model="showAddTodoModal" persistent>
       <q-card style="min-width: 350px">
         <q-card-section>
-          <div class="text-h6">Todo Title</div>
+          <div class="text-h6" aria-hidden="true">Todo Title</div>
         </q-card-section>
 
         <q-card-section class="q-pt-none">
