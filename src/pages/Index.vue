@@ -1,15 +1,11 @@
 <template>
-  <q-page class="flex flex-center">
-    <ul v-show="false">
-      <li>
-      </li>
-    </ul>
+  <q-page class="flex flex-center" onbeforeunload="console.log(9999999999999)">
     <div class="container">
       <div class="container-header">
         <p>Todos</p>
         <q-btn flat round color="" icon="add_circle" style="font-size: 1.8rem" @click="showAddTodoModal=true" />
       </div>
-      <ul class="todos-list">
+      <ul id="todosList" ref="todosList" class="todos-list">
         <li>
           <Todo :key="index" v-for="(todo,index) in todos" :todo="todo">{{todo.title}}</Todo>
         </li>
@@ -42,19 +38,36 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+
 export default {
   name: 'todos',
   data: function () {
     return {
       showAddTodoModal: false,
       titleInput: null,
+      todosList: null,
       addToDoTitle: '',
       completed: false
     }
   },
   created () {
+  },
+  async mounted () {
     // fetch todos data
-    this.getTodosData()
+    await this.getTodosData()
+  },
+  updated () {
+    // load last scroll on todo list item
+    const todosListScrollTop = localStorage.getItem('recentScroll')
+    if (this.todos.length > 0) {
+      this.$refs.todosList.scroll({ top: todosListScrollTop, behavior: 'smooth' })
+    }
+
+    // save last scroll on todo list item
+    window.addEventListener('unload', function (event) {
+      const recentScroll = document.getElementById('todosList').scrollTop
+      localStorage.setItem('recentScroll', recentScroll)
+    })
   },
   computed: {
     // get todos data from todos store
