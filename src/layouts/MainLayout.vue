@@ -8,7 +8,9 @@
       </q-toolbar>
     </q-header>
     <q-page-container>
-      <router-view />
+      <transition name="fade" mode="out-in">
+        <router-view/>
+      </transition>
     </q-page-container>
   </q-layout>
 </template>
@@ -32,4 +34,15 @@ export default {
 
 .q-page-container
   background-color: $primary
+
+.fade-leave-active
+  transition-duration: 0.3s
+  transition-property: opacity
+  transition-timing-function: ease-in-out
+
+.fade-enter
+  transition-duration: 0.3s
+.fade-leave-active
+  opacity: 0.1
+
 </style>

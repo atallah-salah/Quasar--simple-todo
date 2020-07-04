@@ -7,7 +7,6 @@
         <h5>Simple, agile task management</h5>
         <p>for everybody</p>
       </div>
-
       <router-link to="/todos" class="router-link">
         <q-btn class="manage-tasks-button" label="Manage Tasks" />
       </router-link>
@@ -16,7 +15,6 @@
 </template>
 
 <script>
-
 export default {
 
 }

@@ -29,11 +29,11 @@ export default {
   },
   mounted () {
     this.$refs.todoInput.$refs.input.readOnly = true
-    // ele.readOnly = !this.editing
   },
   methods: {
     startEditing: function () {
       this.editing = true
+      // this line used because issues of accessibility, nested add readonly as diractive to the button
       this.$refs.todoInput.$refs.input.readOnly = false
       // use setTimeout nested of just foucs for usage of quasar input effect
       setTimeout(() => this.$refs.todoInput.$el.focus(), 0)

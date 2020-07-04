@@ -18,6 +18,7 @@
         </li>
       </ul>
     </div>
+
     <!-- Add Todo modal -->
     <q-dialog v-model="showAddTodoModal" persistent>
       <q-card style="min-width: 350px">
