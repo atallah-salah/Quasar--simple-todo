@@ -5,11 +5,12 @@
         <content-placeholders-text :style="{flex:1}" :lines="1" />
       </content-placeholders>
       <!-- end placehoder ( content loader ) -->
-      <q-input name="todoInput" v-if="!PlaceHolder" class='todo-input' ref="todoInput" v-model="title"  @keyup.enter="saveEdit" :hint="editing ? 'Press enter to save' : ''" :readonly="!editing" dense clearable spellcheck="false" aria-label="todo" />
+      <q-input id="todoTitleInput" name="todoInput" v-if="!PlaceHolder" :class="[ 'todo-input', 'q-field--readonly', editing ? 'editing' : '']" ref="todoInput" v-model="title"  @keyup.enter="saveEdit" :hint="editing ? 'Press enter to save' : ''" dense clearable spellcheck="false" aria-label="todo" />
       <div class="todo-controls">
-        <q-checkbox v-model="checkobx" @input="!PlaceHolder && updateTodoData()" aria-label="complete the todo" :id="'tab-completed-'+todo.id" tabindex="-1"/>
-        <q-btn flat round :style="{'color': '#0068bb'}" icon="edit" @click="!PlaceHolder && startEditing()" role="button" tabindex="-1" aria-label="Edit" aria-pressed/>
-        <q-btn flat round :style="{'color': '#9e0000'}" icon="delete" @click="!PlaceHolder && deleteTodoAction(todo.id)" aria-label="delete todo" role="button" aria-pressed :id="'tab-delete-'+todo.id" tabindex="-1"/>
+        <q-checkbox v-model="checkobx" @input="!PlaceHolder && updateTodoData()" aria-label="complete the todo" tabindex="-1"/>
+        <q-btn v-if="!editing" flat round :style="{'color': '#0068bb'}" icon="edit" @click="!PlaceHolder && startEditing()" role="button" aria-pressed="true" aria-expanded="true" aria-label="edit"/>
+        <q-btn v-else flat round :style="{'color': '#0068bb'}" icon="save" @click="!PlaceHolder && saveEdit()" role="button" aria-pressed="true" aria-expanded="true" aria-label="save"/>
+        <q-btn flat round :style="{'color': '#9e0000'}" icon="delete" @click="!PlaceHolder && deleteTodoAction(todo.id)" role="button" aria-pressed="true" aria-expanded="true" aria-label="delete" :id="'tab-delete-'+todo.id"/>
       </div>
     </div>
 </template>
@@ -27,15 +28,19 @@ export default {
     }
   },
   mounted () {
+    this.$refs.todoInput.$refs.input.readOnly = true
+    // ele.readOnly = !this.editing
   },
   methods: {
     startEditing: function () {
       this.editing = true
+      this.$refs.todoInput.$refs.input.readOnly = false
       // use setTimeout nested of just foucs for usage of quasar input effect
       setTimeout(() => this.$refs.todoInput.$el.focus(), 0)
     },
     saveEdit: function () {
       this.editing = false
+      this.$refs.todoInput.$refs.input.readOnly = true
       // remove quasar focus style from input
       setTimeout(() => this.$refs.todoInput.$el.classList.remove('q-field--focused'), 0)
       this.updateTodoData()
@@ -70,4 +75,16 @@ export default {
 
   .q-field__marginal
     color: black
+
+  .q-field--focused .q-field__control::after
+    display: none
+
+  .editing.q-field--focused .q-field__control::after
+    display: block
+
+  .q-field__focusable-action
+    display: none
+
+  .editing.q-field--focused .q-field__focusable-action
+    display: block
 </style>
