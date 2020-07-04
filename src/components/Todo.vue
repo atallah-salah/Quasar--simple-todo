@@ -59,10 +59,12 @@ export default {
   .todo-container
     display: flex
     justify-content: space-between
-    font-size: 20px
     padding: 10px
     padding-left: 20px
     border-bottom: #d6d6d6 solid 1px
+
+    input
+      font-size: 20px
 
   .todo-input
     flex: 1

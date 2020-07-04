@@ -21,6 +21,14 @@ export default {
 <style lang="sass">
 .q-header
   background-color: $secondary
+  color: black
+  font-size: 30px
+  font-weight: 500
+  padding: 10px
+
+.q-toolbar__title
+  font-size: 28px
+  font-weight: bolder
 
 .q-page-container
   background-color: $primary
